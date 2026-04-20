@@ -1,6 +1,6 @@
 ---
 name: 2chat-whatsapp
-description: Use this skill when the user wants to send or read WhatsApp messages, check if a phone number is on WhatsApp, list conversations, manage connected numbers, set profile picture or status, or connect/disconnect a WhatsApp number via the 2Chat API. Trigger phrases include "send a WhatsApp", "check WhatsApp number", "list my conversations", "read messages", "set WhatsApp status", "connect WhatsApp number".
+description: Use this skill when the user wants to connect/activate a WhatsApp number, send or read WhatsApp messages, check if a phone number is on WhatsApp, list conversations, manage connected numbers, set profile picture or status, or disconnect a WhatsApp number via the 2Chat API. Trigger phrases include "connect WhatsApp", "activate WhatsApp", "link WhatsApp number", "send a WhatsApp", "check WhatsApp number", "list my conversations", "read messages", "set WhatsApp status".
 ---
 
 # 2Chat — WhatsApp Messaging
@@ -21,6 +21,24 @@ API keys are generated at [app.2chat.io/developers](https://app.2chat.io/develop
 
 ## Numbers
 
+### Create a WhatsApp Web channel
+```http
+POST /whatsapp/channel/create
+```
+```json
+{
+  "phone_number": "+14378375573",
+  "friendly_name": "My Number"
+}
+```
+Returns a channel object with `uuid` and `connection_status` (`D`=disconnected, `C`=connected). After creation the channel is disconnected and awaiting a QR scan.
+
+### Get QR code for a channel
+```http
+GET /whatsapp/channel/{uuid}/qr-code
+```
+Returns `qr_code` (raw string) and `qr_code_image_url` (PNG URL). The QR refreshes at most every 5 seconds — don't poll faster than that. The user scans it from WhatsApp → Settings → Linked Devices → Link a device; once scanned, `connection_status` flips from `D` to `C`.
+
 ### List connected numbers
 ```http
 GET /whatsapp/get-numbers
@@ -34,6 +52,17 @@ Returns array of numbers with `uuid`, `phone_number`, `friendly_name`, `platform
 GET /whatsapp/channel/{uuid}
 ```
 Returns: connection status, timezone, language, business profile flag, pushname.
+
+### Execute channel command
+```http
+POST /whatsapp/channel/{uuid}/{command}
+```
+Supported commands: `connect` (triggers QR code), `disconnect` (disconnects without deleting).
+
+### Delete channel
+```http
+DELETE /whatsapp/channel/{uuid}
+```
 
 ### Check if a number is on WhatsApp
 ```http
@@ -147,39 +176,6 @@ POST /whatsapp/set-status/{number}
 { "status": "My cool new status" }
 ```
 Returns: `success`, `batched`.
-
----
-
-## Channel Management
-
-### Create a WhatsApp connection
-```http
-POST /whatsapp/channel/create
-```
-```json
-{
-  "phone_number": "+18647351567",
-  "friendly_name": "My business number"
-}
-```
-Returns the new channel object. Retrieve QR code via the status endpoint after creation.
-
-### Get channel status
-```http
-GET /whatsapp/channel/{uuid}/status
-```
-Returns: `connection_status` (`C`, `D`, `F`), `qr_code` (when available), and last 10 events. Data refreshes every 3 seconds.
-
-### Execute channel command
-```http
-POST /whatsapp/channel/{uuid}/{command}
-```
-Supported commands: `connect` (triggers QR code), `disconnect` (disconnects without deleting).
-
-### Delete channel
-```http
-DELETE /whatsapp/channel/{uuid}
-```
 
 ---
 
