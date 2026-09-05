@@ -12,8 +12,10 @@ You'll need a [2Chat](https://2chat.co/) account
 
 ### Option A — Claude Desktop / Cowork (.plugin file)
 
-1. Download the packaged `2chat-sales-service-plugin.plugin` file from this [link](https://github.com/2ChatCo/agent-skills/2chat-sales-service-plugin/2chat-sales-service-plugin.plugin).
-2. Open it in Claude Desktop/Cowork — it will render as an installable card. Click **Install**.
+1. Download the packaged `2chat-sales-service-plugin.plugin` file from this [link](https://github.com/2ChatCo/agent-skills/blob/main/2chat-sales-service-plugin/2chat-sales-service.plugin).
+2. Open Claude Desktop/Cowork go to **Customize**.
+3. Select **Plugins**
+4. Click on the button **Add** and select **Upload Plugin**
 
 
 ### Option B — Claude Code (marketplace)
