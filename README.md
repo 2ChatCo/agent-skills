@@ -2,6 +2,9 @@
 
 A collection of agent skills that enable AI agents to interact with the [2Chat API](https://developers.2chat.co/) — send and receive WhatsApp messages, manage contacts, groups, catalogs, webhooks, phone calls, and SMS.
 
+## Plugins
+* **[2chat-sales-service](https://github.com/2ChatCo/agent-skills/tree/main/2chat-sales-service-plugin)** A Claude plugin with skills to support sales, customer service, and WhatsApp group management processes for businesses, using the 2Chat MCP connector.
+
 ## Skills
 
 | Skill | Description |
